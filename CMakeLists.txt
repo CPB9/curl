@@ -1000,12 +1000,12 @@ function(TRANSFORM_MAKEFILE_INC INPUT_FILE OUTPUT_FILE)
 endfunction()
 
 add_subdirectory(lib)
-if(BUILD_CURL_EXE)
-  add_subdirectory(src)
-endif()
-if(BUILD_CURL_TESTS)
-  add_subdirectory(tests)
-endif()
+#if(BUILD_CURL_EXE)
+#  add_subdirectory(src)
+#endif()
+#if(BUILD_CURL_TESTS)
+#  add_subdirectory(tests)
+#endif()
 
 # TODO support GNUTLS, NSS, POLARSSL, AXTLS, CYASSL, WINSSL, DARWINSSL
 if(USE_OPENSSL)
