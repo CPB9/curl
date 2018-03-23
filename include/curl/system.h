@@ -337,6 +337,7 @@
 #    define CURL_SUFFIX_CURL_OFF_TU    UL
 #  endif
 #  define CURL_TYPEOF_CURL_SOCKLEN_T int
+#  define CURL_PULL_WS2TCPIP_H       1
 
 /* ===================================== */
 /*    KEEP GENERIC GCC THE LAST ENTRY    */

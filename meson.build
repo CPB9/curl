@@ -171,9 +171,11 @@ if target_machine.system() == 'windows'
   inc_files += ['windows.h', 'winsock.h', 'ws2tcpip.h', 'winsock2.h']
 endif
 
+all_inc_prefix = ''
 foreach i : inc_files
   if cc.has_header(i)
     cfg.set('HAVE_' + i.to_upper().underscorify(), true)
+    all_inc_prefix += '#include <' + i + '>\n'
   endif
 endforeach
 
@@ -277,7 +279,7 @@ if target_machine.system() != 'darwin'
 endif
 
 foreach s : syms
-  if cc.has_function(s)
+  if cc.has_function(s, prefix : all_inc_prefix)
     cfg.set('HAVE_' + s.to_upper(), true)
   endif
 endforeach
@@ -302,8 +304,8 @@ if not cfg.has('HAVE_SIGSETJMP')
   endif
 endif
 
-if target_machine.system() == 'windows' and cfg.has('HAVE_INET_PTON')
-  #TODO: add winnt flags
+if target_machine.system() == 'windows'
+    cflags += '-D_WIN32_WINNT=0x0600'
 endif
 
 cfg2 = cfg
@@ -455,7 +457,7 @@ if target_machine.system() == 'windows'
   if cfg.has('HAVE_WINSOCK_H')
     sock_test += '#include "winsock.h"\n'
   endif
-  if(HAVE_LIBWS2_32)
+  if cfg.has('HAVE_LIBWS2_32')
     sock_test += ' #pragma comment(lib, "Ws2_32.lib")\n'
   endif
 else
