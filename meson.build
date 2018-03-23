@@ -54,10 +54,6 @@ endif
 
 cflags += '-DBUILDING_LIBCURL'
 
-if target_machine.system() == 'windows'
-  cflags += '-D_WINSOCKAPI_='
-endif
-
 cfg = configuration_data()
 cfg.set_quoted('OS', target_machine.system())
 
@@ -167,11 +163,15 @@ inc_files = [
   'sys/utsname.h',
 ]
 
+all_inc_prefix = ''
 if target_machine.system() == 'windows'
   inc_files += ['windows.h', 'winsock.h', 'ws2tcpip.h', 'winsock2.h']
+  all_inc_prefix += '#define _WINSOCKAPI_\n'
+  if cfg.has('HAVE_LIBWS2_32')
+    all_inc_prefix += '#pragma comment(lib, "Ws2_32.lib")\n'
+  endif
 endif
 
-all_inc_prefix = ''
 foreach i : inc_files
   if cc.has_header(i)
     cfg.set('HAVE_' + i.to_upper().underscorify(), true)
@@ -211,6 +211,19 @@ if cfg.has('HAVE_SIZEOF_LONG_LONG')
   cfg.set('HAVE_LONGLONG', true)
   cfg.set('HAVE_LL', true)
 endif
+
+sym_exists_template = '''
+int main(int argc, char** argv)
+{
+(void)argv;
+#ifndef @0@
+    return ((int*)(&@0@))[argc];
+#else
+    (void)argc;
+    return 0;
+#endif
+}
+'''
 
 syms = [
   'basename',
@@ -279,14 +292,16 @@ if target_machine.system() != 'darwin'
 endif
 
 foreach s : syms
-  if cc.has_function(s, prefix : all_inc_prefix)
+  prog = all_inc_prefix + sym_exists_template.format(s)
+  if cc.compiles(prog, name : s)
     cfg.set('HAVE_' + s.to_upper(), true)
   endif
 endforeach
 
 if cfg.has('HAVE_SIGNAL_FUNC') and cfg.has('HAVE_SIGNAL_MACRO')
   cfg.set('HAVE_SIGNAL', true)
-  if cc.has_function('sigaction', prefix : '#include "signal.h"')
+  prog = '#include "signal.h"' + sym_exists_template.format('sigaction')
+  if cc.compiles(prog, name : 'HAVE_SIGACTION')
     cfg.set('HAVE_SIGACTION', true)
   endif
 endif
@@ -297,7 +312,8 @@ endif
 
 if not cfg.has('HAVE_SIGSETJMP')
   if cfg.has('HAVE_SETJMP_H')
-    if cc.has_function('sigsetjmp', prefix : '#include "setjmp.h"')
+    prog = '#include "setjmp.h"' + sym_exists_template.format('sigsetjmp')
+    if cc.compiles(prog, name : 'HAVE_SIGSETJMP')
       cfg.set('HAVE_MACRO_SIGSETJMP', true)
       cfg.set('HAVE_SIGSETJMP', true)
     endif
@@ -307,9 +323,6 @@ endif
 if target_machine.system() == 'windows'
     cflags += '-D_WIN32_WINNT=0x0600'
 endif
-
-cfg2 = cfg
-tmp_cfg_file = configure_file(configuration : cfg2, input : 'lib/curl_config.h.meson', output : 'cfg_temp.h')
 
 curl_tests = [
   'HAVE_FCNTL_O_NONBLOCK',
@@ -351,12 +364,11 @@ if cfg.has('HAVE_FSETXATTR')
   curl_tests += ['HAVE_FSETXATTR6']
 endif
 
-test_code = '#include "' + meson.current_build_dir() + '/cfg_temp.h"\n'
 test_code = '#include "' + meson.current_source_dir() + '/CMake/CurlTests.c"\n'
 
 foreach t : curl_tests
   prefix = '#define ' + t + '\n'
-  if cc.compiles(prefix + test_code, name : 'curl compile test ' + t)
+  if cc.compiles(prefix + test_code, name : t)
     cfg.set(t, true)
   endif
 endforeach
@@ -382,7 +394,7 @@ curl_run_tests = [
 
 foreach t : curl_run_tests
   prefix = '#define ' + t + '\n'
-  rv = cc.run(prefix + test_code, name : 'curl run test ' + t)
+  rv = cc.run(prefix + test_code, name : t)
   if rv.returncode() == 0
     cfg.set(t, true)
   endif
@@ -509,7 +521,7 @@ sys_poll_test = '''
   }
 '''
 
-sys_poll_runs = cc.run(sys_poll_prefix + sys_poll_test, name : 'curl run test HAVE_POLL_FINE')
+sys_poll_runs = cc.run(sys_poll_prefix + sys_poll_test, name : 'HAVE_POLL_FINE')
 if sys_poll_runs.returncode() == 0
   cfg.set('HAVE_POLL_FINE', true)
 endif
@@ -531,7 +543,7 @@ if sig_atomic_size > 0
        return 0;
      }'''
 
-  if cc.compiles(signal_prefix + test, name : 'curl test HAVE_SIG_ATOMIC_T_NOT_VOLATILE')
+  if cc.compiles(signal_prefix + test, name : 'HAVE_SIG_ATOMIC_T_NOT_VOLATILE')
     cfg.set('HAVE_SIG_ATOMIC_T_NOT_VOLATILE', true)
   else
     cfg.set('HAVE_SIG_ATOMIC_T_VOLATILE', true)
