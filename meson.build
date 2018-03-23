@@ -179,6 +179,9 @@ foreach i : inc_files
   endif
 endforeach
 
+cfg2 = cfg
+configure_file(configuration : cfg2, input : 'lib/curl_config.h.meson', output : 'temp_config.h')
+
 size_defs = [
   'size_t',
   'ssize_t',
@@ -364,7 +367,8 @@ if cfg.has('HAVE_FSETXATTR')
   curl_tests += ['HAVE_FSETXATTR6']
 endif
 
-test_code = '#include "' + meson.current_source_dir() + '/CMake/CurlTests.c"\n'
+test_code = '#include "' + meson.current_build_dir() + '/temp_config.h"\n'
+test_code += '#include "' + meson.current_source_dir() + '/CMake/CurlTests.c"\n'
 
 foreach t : curl_tests
   prefix = '#define ' + t + '\n'
