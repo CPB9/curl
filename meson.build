@@ -195,7 +195,7 @@ size_defs = [
 ]
 
 foreach s : size_defs
-  size = cc.sizeof(s, prefix : '#include<time.h>')
+  size = cc.sizeof(s, prefix : all_inc_prefix)
   if size > 0
     cfg.set('HAVE_SIZEOF_' + '_'.join(s.split()).to_upper(), true)
     cfg.set('SIZEOF_' + s.to_upper(), size)
