@@ -1,7 +1,7 @@
 config_h = configure_file(configuration : cfg, input : 'curl_config.h.meson', output : 'curl_config.h')
 
 inc = include_directories('../include', '.')
-dep_inc = include_directories('../include', '.', is_system : true)
+dep_inc = include_directories('../include', is_system : true)
 
 src = [
   'vauth/vauth.c', 'vauth/cleartext.c', 'vauth/cram.c',
