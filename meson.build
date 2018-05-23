@@ -58,150 +58,237 @@ cfg = configuration_data()
 cfg.set_quoted('OS', target_machine.system())
 
 #TODO: add options
-cfg.set('CURL_DISABLE_FTP', 0)
-cfg.set('CURL_DISABLE_LDAP', 1)
-cfg.set('CURL_DISABLE_LDAPS', 1)
-cfg.set('CURL_DISABLE_TELNET', 1)
-cfg.set('CURL_DISABLE_DICT', 1)
-cfg.set('CURL_DISABLE_FILE', 1)
-cfg.set('CURL_DISABLE_TFTP', 1)
-cfg.set('CURL_DISABLE_RTSP', 1)
-cfg.set('CURL_DISABLE_POP3', 1)
-cfg.set('CURL_DISABLE_IMAP', 1)
-cfg.set('CURL_DISABLE_SMTP', 1)
-cfg.set('CURL_DISABLE_GOPHER', 1)
+cfg.set('CURL_DISABLE_FTP', false)
+cfg.set('CURL_DISABLE_LDAP', true)
+cfg.set('CURL_DISABLE_LDAPS', true)
+cfg.set('CURL_DISABLE_TELNET', true)
+cfg.set('CURL_DISABLE_DICT', true)
+cfg.set('CURL_DISABLE_FILE', true)
+cfg.set('CURL_DISABLE_TFTP', true)
+cfg.set('CURL_DISABLE_RTSP', true)
+cfg.set('CURL_DISABLE_POP3', true)
+cfg.set('CURL_DISABLE_IMAP', true)
+cfg.set('CURL_DISABLE_SMTP', true)
+cfg.set('CURL_DISABLE_GOPHER', true)
 
 if target_machine.system() == 'windows'
-  cfg.set('HAVE_LIBDL', 0)
-  cfg.set('HAVE_LIBUCB', 0)
-  cfg.set('HAVE_LIBSOCKET', 0)
-  cfg.set('NOT_NEED_LIBNSL', 0)
-  cfg.set('HAVE_LIBNSL', 0)
-  cfg.set('HAVE_GETHOSTNAME', 1)
-  cfg.set('HAVE_LIBZ', 0)
-  cfg.set('HAVE_LIBCRYPTO', 0)
-  cfg.set('HAVE_DLOPEN', 0)
-  cfg.set('HAVE_ALLOCA_H', 0)
-  cfg.set('HAVE_ARPA_INET_H', 0)
-  cfg.set('HAVE_DLFCN_H', 0)
-  cfg.set('HAVE_FCNTL_H', 1)
-  cfg.set('HAVE_INTTYPES_H', 0)
-  cfg.set('HAVE_IO_H', 1)
-  cfg.set('HAVE_MALLOC_H', 1)
-  cfg.set('HAVE_MEMORY_H', 1)
-  cfg.set('HAVE_NETDB_H', 0)
-  cfg.set('HAVE_NETINET_IF_ETHER_H', 0)
-  cfg.set('HAVE_NETINET_IN_H', 0)
-  cfg.set('HAVE_NET_IF_H', 0)
-  cfg.set('HAVE_PROCESS_H', 1)
-  cfg.set('HAVE_PWD_H', 0)
-  cfg.set('HAVE_SETJMP_H', 1)
-  cfg.set('HAVE_SGTTY_H', 0)
-  cfg.set('HAVE_SIGNAL_H', 1)
-  cfg.set('HAVE_SOCKIO_H', 0)
-  cfg.set('HAVE_STDINT_H', 0)
-  cfg.set('HAVE_STDLIB_H', 1)
-  cfg.set('HAVE_STRINGS_H', 0)
-  cfg.set('HAVE_STRING_H', 1)
-  cfg.set('HAVE_SYS_PARAM_H', 0)
-  cfg.set('HAVE_SYS_POLL_H', 0)
-  cfg.set('HAVE_SYS_SELECT_H', 0)
-  cfg.set('HAVE_SYS_SOCKET_H', 0)
-  cfg.set('HAVE_SYS_SOCKIO_H', 0)
-  cfg.set('HAVE_SYS_STAT_H', 1)
-  cfg.set('HAVE_SYS_TIME_H', 0)
-  cfg.set('HAVE_SYS_TYPES_H', 1)
-  cfg.set('HAVE_SYS_UTIME_H', 1)
-  cfg.set('HAVE_TERMIOS_H', 0)
-  cfg.set('HAVE_TERMIO_H', 0)
-  cfg.set('HAVE_TIME_H', 1)
-  cfg.set('HAVE_UNISTD_H', 0)
-  cfg.set('HAVE_UTIME_H', 0)
-  cfg.set('HAVE_X509_H', 0)
-  cfg.set('HAVE_ZLIB_H', 0)
-  cfg.set('HAVE_SIZEOF_LONG_DOUBLE', 1)
+  cfg.set('HAVE_LIBDL', false)
+  cfg.set('HAVE_LIBUCB', false)
+  cfg.set('HAVE_LIBSOCKET', false)
+  cfg.set('NOT_NEED_LIBNSL', false)
+  cfg.set('HAVE_LIBNSL', false)
+  cfg.set('HAVE_GETHOSTNAME', true)
+  cfg.set('HAVE_LIBZ', false)
+  cfg.set('HAVE_LIBCRYPTO', false)
+  cfg.set('HAVE_DLOPEN', false)
+  cfg.set('HAVE_ALLOCA_H', false)
+  cfg.set('HAVE_ARPA_INET_H', false)
+  cfg.set('HAVE_DLFCN_H', false)
+  cfg.set('HAVE_FCNTL_H', true)
+  cfg.set('HAVE_INTTYPES_H', false)
+  cfg.set('HAVE_IO_H', true)
+  cfg.set('HAVE_MALLOC_H', true)
+  cfg.set('HAVE_MEMORY_H', true)
+  cfg.set('HAVE_NETDB_H', false)
+  cfg.set('HAVE_NETINET_IF_ETHER_H', false)
+  cfg.set('HAVE_NETINET_IN_H', false)
+  cfg.set('HAVE_NET_IF_H', false)
+  cfg.set('HAVE_PROCESS_H', true)
+  cfg.set('HAVE_PWD_H', false)
+  cfg.set('HAVE_SETJMP_H', true)
+  cfg.set('HAVE_SGTTY_H', false)
+  cfg.set('HAVE_SIGNAL_H', true)
+  cfg.set('HAVE_SOCKIO_H', false)
+  cfg.set('HAVE_STDINT_H', false)
+  cfg.set('HAVE_STDLIB_H', true)
+  cfg.set('HAVE_STRINGS_H', false)
+  cfg.set('HAVE_STRING_H', true)
+  cfg.set('HAVE_SYS_PARAM_H', false)
+  cfg.set('HAVE_SYS_POLL_H', false)
+  cfg.set('HAVE_SYS_SELECT_H', false)
+  cfg.set('HAVE_SYS_SOCKET_H', false)
+  cfg.set('HAVE_SYS_SOCKIO_H', false)
+  cfg.set('HAVE_SYS_STAT_H', true)
+  cfg.set('HAVE_SYS_TIME_H', false)
+  cfg.set('HAVE_SYS_TYPES_H', true)
+  cfg.set('HAVE_SYS_UTIME_H', true)
+  cfg.set('HAVE_TERMIOS_H', false)
+  cfg.set('HAVE_TERMIO_H', false)
+  cfg.set('HAVE_TIME_H', true)
+  cfg.set('HAVE_UNISTD_H', false)
+  cfg.set('HAVE_UTIME_H', false)
+  cfg.set('HAVE_X509_H', false)
+  cfg.set('HAVE_ZLIB_H', false)
+  cfg.set('HAVE_SIZEOF_LONG_DOUBLE', true)
   cfg.set('SIZEOF_LONG_DOUBLE', 8)
-  cfg.set('HAVE_SOCKET', 1)
-  cfg.set('HAVE_POLL', 0)
-  cfg.set('HAVE_SELECT', 1)
-  cfg.set('HAVE_STRDUP', 1)
-  cfg.set('HAVE_STRSTR', 1)
-  cfg.set('HAVE_STRTOK_R', 0)
-  cfg.set('HAVE_STRFTIME', 1)
-  cfg.set('HAVE_UNAME', 0)
-  cfg.set('HAVE_STRCASECMP', 0)
-  cfg.set('HAVE_STRICMP', 1)
-  cfg.set('HAVE_STRCMPI', 1)
-  cfg.set('HAVE_GETHOSTBYADDR', 1)
-  cfg.set('HAVE_GETTIMEOFDAY', 0)
-  cfg.set('HAVE_INET_ADDR', 1)
-  cfg.set('HAVE_INET_NTOA', 1)
-  cfg.set('HAVE_INET_NTOA_R', 0)
-  cfg.set('HAVE_TCGETATTR', 0)
-  cfg.set('HAVE_TCSETATTR', 0)
-  cfg.set('HAVE_PERROR', 1)
-  cfg.set('HAVE_CLOSESOCKET', 1)
-  cfg.set('HAVE_SETVBUF', 0)
-  cfg.set('HAVE_SIGSETJMP', 0)
-  cfg.set('HAVE_GETPASS_R', 0)
-  cfg.set('HAVE_STRLCAT', 0)
-  cfg.set('HAVE_GETPWUID', 0)
-  cfg.set('HAVE_GETEUID', 0)
-  cfg.set('HAVE_UTIME', 1)
-  cfg.set('HAVE_RAND_EGD', 0)
-  cfg.set('HAVE_RAND_SCREEN', 0)
-  cfg.set('HAVE_RAND_STATUS', 0)
-  cfg.set('HAVE_GMTIME_R', 0)
-  cfg.set('HAVE_LOCALTIME_R', 0)
-  cfg.set('HAVE_GETHOSTBYADDR_R', 0)
-  cfg.set('HAVE_GETHOSTBYNAME_R', 0)
-  cfg.set('HAVE_SIGNAL_FUNC', 1)
-  cfg.set('HAVE_SIGNAL_MACRO', 0)
-  cfg.set('HAVE_GETHOSTBYADDR_R_5', 0)
-  cfg.set('HAVE_GETHOSTBYADDR_R_5_REENTRANT', 0)
-  cfg.set('HAVE_GETHOSTBYADDR_R_7', 0)
-  cfg.set('HAVE_GETHOSTBYADDR_R_7_REENTRANT', 0)
-  cfg.set('HAVE_GETHOSTBYADDR_R_8', 0)
-  cfg.set('HAVE_GETHOSTBYADDR_R_8_REENTRANT', 0)
-  cfg.set('HAVE_GETHOSTBYNAME_R_3', 0)
-  cfg.set('HAVE_GETHOSTBYNAME_R_3_REENTRANT', 0)
-  cfg.set('HAVE_GETHOSTBYNAME_R_5', 0)
-  cfg.set('HAVE_GETHOSTBYNAME_R_5_REENTRANT', 0)
-  cfg.set('HAVE_GETHOSTBYNAME_R_6', 0)
-  cfg.set('HAVE_GETHOSTBYNAME_R_6_REENTRANT', 0)
-  cfg.set('TIME_WITH_SYS_TIME', 0)
-  cfg.set('HAVE_O_NONBLOCK', 0)
-  cfg.set('HAVE_IN_ADDR_T', 0)
-  cfg.set('HAVE_INET_NTOA_R_DECL', 0)
-  cfg.set('HAVE_INET_NTOA_R_DECL_REENTRANT', 0)
-  cfg.set('HAVE_GETADDRINFO', 0)
-  cfg.set('STDC_HEADERS', 1)
-  cfg.set('RETSIGTYPE_TEST', 1)
-  cfg.set('HAVE_SIGACTION', 0)
-  cfg.set('HAVE_MACRO_SIGSETJMP', 0)
+  cfg.set('HAVE_SOCKET', true)
+  cfg.set('HAVE_POLL', false)
+  cfg.set('HAVE_SELECT', true)
+  cfg.set('HAVE_STRDUP', true)
+  cfg.set('HAVE_STRSTR', true)
+  cfg.set('HAVE_STRTOK_R', false)
+  cfg.set('HAVE_STRFTIME', true)
+  cfg.set('HAVE_UNAME', false)
+  cfg.set('HAVE_STRCASECMP', false)
+  cfg.set('HAVE_STRICMP', true)
+  cfg.set('HAVE_STRCMPI', true)
+  cfg.set('HAVE_GETHOSTBYADDR', true)
+  cfg.set('HAVE_GETTIMEOFDAY', false)
+  cfg.set('HAVE_INET_ADDR', true)
+  cfg.set('HAVE_INET_NTOA', true)
+  cfg.set('HAVE_INET_NTOA_R', false)
+  cfg.set('HAVE_TCGETATTR', false)
+  cfg.set('HAVE_TCSETATTR', false)
+  cfg.set('HAVE_PERROR', true)
+  cfg.set('HAVE_CLOSESOCKET', true)
+  cfg.set('HAVE_SETVBUF', false)
+  cfg.set('HAVE_SIGSETJMP', false)
+  cfg.set('HAVE_GETPASS_R', false)
+  cfg.set('HAVE_STRLCAT', false)
+  cfg.set('HAVE_GETPWUID', false)
+  cfg.set('HAVE_GETEUID', false)
+  cfg.set('HAVE_UTIME', true)
+  cfg.set('HAVE_RAND_EGD', false)
+  cfg.set('HAVE_RAND_SCREEN', false)
+  cfg.set('HAVE_RAND_STATUS', false)
+  cfg.set('HAVE_GMTIME_R', false)
+  cfg.set('HAVE_LOCALTIME_R', false)
+  cfg.set('HAVE_GETHOSTBYADDR_R', false)
+  cfg.set('HAVE_GETHOSTBYNAME_R', false)
+  cfg.set('HAVE_SIGNAL_FUNC', true)
+  cfg.set('HAVE_SIGNAL_MACRO', false)
+  cfg.set('HAVE_GETHOSTBYADDR_R_5', false)
+  cfg.set('HAVE_GETHOSTBYADDR_R_5_REENTRANT', false)
+  cfg.set('HAVE_GETHOSTBYADDR_R_7', false)
+  cfg.set('HAVE_GETHOSTBYADDR_R_7_REENTRANT', false)
+  cfg.set('HAVE_GETHOSTBYADDR_R_8', false)
+  cfg.set('HAVE_GETHOSTBYADDR_R_8_REENTRANT', false)
+  cfg.set('HAVE_GETHOSTBYNAME_R_3', false)
+  cfg.set('HAVE_GETHOSTBYNAME_R_3_REENTRANT', false)
+  cfg.set('HAVE_GETHOSTBYNAME_R_5', false)
+  cfg.set('HAVE_GETHOSTBYNAME_R_5_REENTRANT', false)
+  cfg.set('HAVE_GETHOSTBYNAME_R_6', false)
+  cfg.set('HAVE_GETHOSTBYNAME_R_6_REENTRANT', false)
+  cfg.set('TIME_WITH_SYS_TIME', false)
+  cfg.set('HAVE_O_NONBLOCK', false)
+  cfg.set('HAVE_IN_ADDR_T', false)
+  cfg.set('HAVE_INET_NTOA_R_DECL', false)
+  cfg.set('HAVE_INET_NTOA_R_DECL_REENTRANT', false)
+  cfg.set('HAVE_GETADDRINFO', false)
+  cfg.set('STDC_HEADERS', true)
+  cfg.set('RETSIGTYPE_TEST', true)
+  cfg.set('HAVE_SIGACTION', false)
+  cfg.set('HAVE_MACRO_SIGSETJMP', false)
+  
+  cfg.set('HAVE_WINDOWS_H', true)
+  cfg.set('HAVE_WINSOCK_H', true)
+  cfg.set('HAVE_WINSOCK2_H', true)
+  cfg.set('HAVE_WS2TCPIP_H', true)
+  cfg.set('HAVE_ASSERT_H', true)
+  cfg.set('HAVE_LOCALE_H', true)
+  cfg.set('HAVE_STDIO_H', true)
+  cfg.set('HAVE_ERRNO_H', true)
+  cfg.set('HAVE_STDBOOL_H', true)
+  cfg.set('HAVE_STDDEF_H', true)
+  cfg.set('HAVE_POLL_H', false)
+  cfg.set('HAVE_SSL_H', false)
+  cfg.set('HAVE_KRB_H', false)
+  cfg.set('HAVE_CRYPTO_H', false)
+  cfg.set('HAVE_RSA_H', true)
+  cfg.set('HAVE_ARPA_TFTP_H', true)
+  cfg.set('HAVE_SYS_FILIO_H', false)
+  cfg.set('HAVE_SYS_IOCTL_H', false)
+  cfg.set('HAVE_SYS_UIO_H', false)
+  cfg.set('HAVE_SYS_UN_H', false)
+  cfg.set('HAVE_SYS_XATTR_H', false)
+  cfg.set('HAVE_SYS_RESOURCE_H', false)
+  cfg.set('HAVE_DES_H', false)
+  cfg.set('HAVE_ERR_H', false)
+  cfg.set('HAVE_IDN2_H', false)
+  cfg.set('HAVE_IFADDRS_H', false)
+  cfg.set('HAVE_LIBGEN_H', false)
+  cfg.set('HAVE_PEM_H', false)
+  cfg.set('HAVE_STROPTS_H', false)
+  cfg.set('HAVE_SYS_UTSNAME_H', false)
+  cfg.set('HAVE_NETINET_TCP_H', false)
+ 
+  cfg.set('HAVE_GLIBC_STRERROR_R', false)
+  cfg.set('HAVE_POSIX_STRERROR_R', false)
+  cfg.set('HAVE_FCNTL_O_NONBLOCK', false)
+  cfg.set('HAVE_IOCTLSOCKET', true)
+  cfg.set('HAVE_IOCTLSOCKET_CAMEL', false)
+  cfg.set('HAVE_IOCTLSOCKET_CAMEL_FIONBIO', true)
+  cfg.set('HAVE_IOCTLSOCKET_FIONBIO', true)
+  cfg.set('HAVE_IOCTL_FIONBIO', false)
+  cfg.set('HAVE_IOCTL_SIOCGIFADDR', false)
+  cfg.set('HAVE_SETSOCKOPT_SO_NONBLOCK', false)
+  cfg.set('HAVE_SOCKADDR_IN6_SIN6_SCOPE_ID', false)
+  cfg.set('HAVE_SOCKLEN_T', false)
+  cfg.set('HAVE_BOOL_T', true)
+  cfg.set('HAVE_FILE_OFFSET_BITS', false)
+  cfg.set('HAVE_POLL_FINE', false)
+  
+  cfg.set('HAVE_BASENAME', false)
+  cfg.set('HAVE_ALARM', false)
+  cfg.set('HAVE_SIGNAL', false)
+  cfg.set('HAVE_FCNTL', false)
+  cfg.set('HAVE_IOCTL', false)
+  cfg.set('HAVE_SETLOCALE', true)
+  cfg.set('HAVE_STRNCMPI', false)
+  cfg.set('HAVE_GETHOSTBYNAME', true)
+  cfg.set('HAVE_STRTOLL', true)
+  cfg.set('HAVE_SIGALRM', false)
+  cfg.set('HAVE_STRERROR_R', false)
+  cfg.set('HAVE_SIGINTERRUPT', false)
+  cfg.set('HAVE_FORK', false)
+  cfg.set('HAVE_FREEADDRINFO', true)
+  cfg.set('HAVE_PIPE', false)
+  cfg.set('HAVE_FREEIFADDRS', false)
+  
+  cfg.set('HAVE_FTRUNCATE', false)
+  cfg.set('HAVE_GETPROTOBYNAME', true)
+  cfg.set('HAVE_GETRLIMIT', false)
+  cfg.set('HAVE_SETMODE', true)
+  cfg.set('HAVE_SETRLIMIT', false)
+  cfg.set('HAVE_SETSOCKOPT', true)
+  cfg.set('HAVE_MACH_ABSOLUTE_TIME', false)
+  cfg.set('HAVE_FSETXATTR', false)
+  cfg.set('HAVE_FSETXATTR5', false)
+  cfg.set('HAVE_FSETXATTR6', false)
+  cfg.set('HAVE_INET_PTON', true)
 endif
 
 libs = []
 
-lib_defs = [
-  'dl',
-  'socket',
-  'bind',
-  'bnetapi',
-  'ws2_32',
-  'winmm',
-]
+if target_machine.system() == 'windows'
+  lib_defs = [
+    'ws2_32',
+    'winmm',
+  ]
+else
+  lib_defs = [
+    'dl',
+    'socket',
+    'bind',
+    'bnetapi',
+  ]
+endif
+
 
 foreach ld : lib_defs
   l = cc.find_library(ld, required : false)
   if l.found()
     libs += l
-    cfg.set('HAVE_' + ld.to_upper(), 1)
+    cfg.set('HAVE_' + ld.to_upper(), true)
   endif
 endforeach
 
-if cc.has_member('struct sockaddr_un', 'sun_path', prefix : '#include<sys/un.h>')
-  cfg.set('USE_UNIX_SOCKETS', 1)
+if target_machine.system() == 'windows'
+    cfg.set('USE_UNIX_SOCKETS', false)
+else
+  if cc.has_member('struct sockaddr_un', 'sun_path', prefix : '#include<sys/un.h>')
+    cfg.set('USE_UNIX_SOCKETS', true)
+  endif
 endif
 
 inc_files = [
@@ -286,7 +373,7 @@ foreach i : inc_files
   def = 'HAVE_' + i.to_upper().underscorify()
   if not cfg.has(def)
     if cc.has_header(i)
-      cfg.set(def, 1)
+      cfg.set(def, true)
       all_inc_prefix += '#include <' + i + '>\n'
     endif
   endif
@@ -310,9 +397,9 @@ size_defs = [
 foreach s : size_defs
   def = 'HAVE_SIZEOF_' + '_'.join(s.split()).to_upper()
   if not cfg.has(def)
-    size = cc.sizeof(s, prefix : all_inc_prefix)
+    size = cc.sizeof(s, prefix : '#include <time.h>\n#include <stddef.h>\n')
     if size > 0
-      cfg.set(def, 1)
+      cfg.set(def, true)
       cfg.set('SIZEOF_' + s.to_upper(), size)
     endif
   endif
@@ -327,8 +414,8 @@ if not cfg.has('HAVE_SIZEOF_SSIZE_T')
 endif
 
 if cfg.has('HAVE_SIZEOF_LONG_LONG')
-  cfg.set('HAVE_LONGLONG', 1)
-  cfg.set('HAVE_LL', 1)
+  cfg.set('HAVE_LONGLONG', true)
+  cfg.set('HAVE_LL', true)
 endif
 
 sym_exists_template = '''
@@ -383,7 +470,6 @@ syms = [
   'SIGALRM',
   'uname',
   'strtoll',
-  '_strtoi64',
   'strerror_r',
   'siginterrupt',
   'perror',
@@ -415,24 +501,24 @@ foreach s : syms
   if not cfg.has(def)
     prog = all_inc_prefix + sym_exists_template.format(s)
     if cc.compiles(prog, name : s)
-      cfg.set(def, 1)
+      cfg.set(def, true)
     endif
   endif
 endforeach
 
 if cfg.has('HAVE_SIGNAL_FUNC') and cfg.has('HAVE_SIGNAL_MACRO')
-  cfg.set('HAVE_SIGNAL', 1)
+  cfg.set('HAVE_SIGNAL', true)
   def = 'HAVE_SIGACTION'
   if not cfg.has(def)
     prog = '#include "signal.h"' + sym_exists_template.format('sigaction')
     if cc.compiles(prog, name : 'HAVE_SIGACTION')
-      cfg.set(def, 1)
+      cfg.set(def, true)
     endif
   endif
 endif
 
 if not cfg.has('HAVE_STRNCMPI')
-  cfg.set('HAVE_STRCMPI', 1)
+  cfg.set('HAVE_STRCMPI', true)
 endif
 
 if not cfg.has('HAVE_SIGSETJMP')
@@ -441,8 +527,8 @@ if not cfg.has('HAVE_SIGSETJMP')
   if cfg.has('HAVE_SETJMP_H') and not (cfg.has(def1) or cfg.has(def2))
     prog = '#include "setjmp.h"' + sym_exists_template.format('sigsetjmp')
     if cc.compiles(prog, name : 'HAVE_SIGSETJMP')
-      cfg.set(def1, 1)
-      cfg.set(def2, 1)
+      cfg.set(def1, true)
+      cfg.set(def2, true)
     endif
   endif
 endif
@@ -498,7 +584,7 @@ foreach t : curl_tests
   if not cfg.has(t)
     prefix = '#define ' + t + '\n'
     if cc.compiles(prefix + test_code, name : t)
-      cfg.set(t, 1)
+      cfg.set(t, true)
     endif
   endif
 endforeach
@@ -533,7 +619,7 @@ foreach t : curl_run_tests
     prefix = '#define ' + t + '\n'
     rv = cc.run(prefix + test_code, name : t)
     if rv.returncode() == 0
-      cfg.set(t, 1)
+      cfg.set(t, true)
     endif
   endif
 endforeach
@@ -568,21 +654,21 @@ if need_reentrant
 
 
     if not cfg.has(t)
-      cfg.set(t, 0)
+      cfg.set(t, false)
     endif
     if cfg.has(t + '_REENTRANT')
-      cfg.set(t, 1)
+      cfg.set(t, true)
     endif
   endforeach
 endif
 
 if cfg.has('HAVE_INET_NTOA_R_DECL_REENTRANT')
-  cfg.set('HAVE_INET_NTOA_R_DECL', 1)
+  cfg.set('HAVE_INET_NTOA_R_DECL', true)
   need_reentrant = true
 endif
 
 if need_reentrant
-  cfg.set('NEED_REENTRANT', 1)
+  cfg.set('NEED_REENTRANT', true)
 endif
 
 if not cfg.has('HAVE_IN_ADDR_T')
@@ -590,7 +676,7 @@ if not cfg.has('HAVE_IN_ADDR_T')
 endif
 
 if not(cfg.has('HAVE_FIONBIO') or cfg.has('HAVE_IOCTLSOCKET') or cfg.has('HAVE_IOCTLSOCKET_CASE') or cfg.has('HAVE_O_NONBLOCK'))
-  cfg.set('HAVE_DISABLED_NONBLOCKING', 1)
+  cfg.set('HAVE_DISABLED_NONBLOCKING', true)
 endif
 
 if cfg.has('RETSIGTYPE_TEST')
@@ -622,9 +708,9 @@ else
   endif
 endif
 
-cfg.set('HAVE_RECV', 1)
-cfg.set('HAVE_SEND', 1)
-cfg.set('HAVE_STRUCT_TIMEVAL', 1)
+cfg.set('HAVE_RECV', true)
+cfg.set('HAVE_SEND', true)
+cfg.set('HAVE_STRUCT_TIMEVAL', true)
 if target_machine.system() == 'windows'
   cfg.set('RECV_TYPE_RETV', 'int')
   cfg.set('RECV_TYPE_ARG1', 'SOCKET')
@@ -666,11 +752,11 @@ def = 'HAVE_POLL_FINE'
 if not cfg.has(def)
   sys_poll_runs = cc.run(sys_poll_prefix + sys_poll_test, name : 'HAVE_POLL_FINE')
   if sys_poll_runs.returncode() == 0
-    cfg.set(def, 1)
+    cfg.set(def, true)
   endif
 endif
 
-cfg.set('HAVE_SIG_ATOMIC_T', 1)
+cfg.set('HAVE_SIG_ATOMIC_T', true)
 signal_prefix = ''
 if cfg.has('HAVE_SIGNAL_H')
   signal_prefix = '#include <signal.h>\n'
@@ -681,7 +767,7 @@ if not cfg.has(def)
   sig_atomic_size = cc.sizeof('sig_atomic_t', prefix : signal_prefix)
   if sig_atomic_size > 0
     cfg.set('SIZEOF_SIG_ATOMIC_T', sig_atomic_size)
-    cfg.set(def, 1)
+    cfg.set(def, true)
     test = '''
        int main(void) {
          static volatile sig_atomic_t dummy = 0;
@@ -690,9 +776,9 @@ if not cfg.has(def)
        }'''
 
     if cc.compiles(signal_prefix + test, name : 'HAVE_SIG_ATOMIC_T_NOT_VOLATILE')
-      cfg.set('HAVE_SIG_ATOMIC_T_NOT_VOLATILE', 1)
+      cfg.set('HAVE_SIG_ATOMIC_T_NOT_VOLATILE', true)
     else
-      cfg.set('HAVE_SIG_ATOMIC_T_VOLATILE', 1)
+      cfg.set('HAVE_SIG_ATOMIC_T_VOLATILE', true)
     endif
   endif
 endif
@@ -701,8 +787,8 @@ def = 'HAVE_SIZEOF_STRUCT_SOCKADDR_STORAGE'
 if not cfg.has(def)
   sockaddr_storage_size = cc.sizeof('struct sockaddr_storage', prefix : sock_test)
   if sockaddr_storage_size > 0
-    cfg.set(def, 1)
-    cfg.set('HAVE_STRUCT_SOCKADDR_STORAGE', 1)
+    cfg.set(def, true)
+    cfg.set('HAVE_STRUCT_SOCKADDR_STORAGE', true)
     cfg.set('SIZEOF_STRUCT_SOCKADDR_STORAGE', sockaddr_storage_size)
   endif
 endif
