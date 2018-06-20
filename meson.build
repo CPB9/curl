@@ -1,6 +1,6 @@
 project('curl', 'c')
 
-if target_machine.system() != 'windows' and target_machine.system() != 'linux'
+if host_machine.system() != 'windows' and host_machine.system() != 'linux'
   error('Only linux and windows supported')
 endif
 
@@ -55,7 +55,7 @@ endif
 cflags += '-DBUILDING_LIBCURL'
 
 cfg = configuration_data()
-cfg.set_quoted('OS', target_machine.system())
+cfg.set_quoted('OS', host_machine.system())
 
 #TODO: add options
 cfg.set('CURL_DISABLE_FTP', false)
@@ -71,7 +71,7 @@ cfg.set('CURL_DISABLE_IMAP', true)
 cfg.set('CURL_DISABLE_SMTP', true)
 cfg.set('CURL_DISABLE_GOPHER', true)
 
-if target_machine.system() == 'windows'
+if host_machine.system() == 'windows'
   cfg.set('HAVE_LIBDL', false)
   cfg.set('HAVE_LIBUCB', false)
   cfg.set('HAVE_LIBSOCKET', false)
@@ -260,7 +260,7 @@ endif
 
 libs = []
 
-if target_machine.system() == 'windows'
+if host_machine.system() == 'windows'
   lib_defs = [
     'ws2_32',
     'winmm',
@@ -283,7 +283,7 @@ foreach ld : lib_defs
   endif
 endforeach
 
-if target_machine.system() == 'windows'
+if host_machine.system() == 'windows'
     cfg.set('USE_UNIX_SOCKETS', false)
 else
   if cc.has_member('struct sockaddr_un', 'sun_path', prefix : '#include<sys/un.h>')
@@ -361,7 +361,7 @@ inc_files = [
 ]
 
 all_inc_prefix = ''
-if target_machine.system() == 'windows'
+if host_machine.system() == 'windows'
   inc_files += ['windows.h', 'winsock.h', 'ws2tcpip.h', 'winsock2.h']
   all_inc_prefix += '#define _WINSOCKAPI_\n'
   if cfg.has('HAVE_LIBWS2_32')
@@ -397,7 +397,11 @@ size_defs = [
 foreach s : size_defs
   def = 'HAVE_SIZEOF_' + '_'.join(s.split()).to_upper()
   if not cfg.has(def)
-    size = cc.sizeof(s, prefix : '#include <time.h>\n#include <stddef.h>\n')
+    prefix = '#include <time.h>\n#include <stddef.h>\n'
+    if host_machine.system() == 'linux'
+        prefix += '#include <unistd.h>\n'
+    endif
+    size = cc.sizeof(s, prefix : prefix)
     if size > 0
       cfg.set(def, true)
       cfg.set('SIZEOF_' + s.to_upper(), size)
@@ -492,7 +496,7 @@ syms = [
   'inet_pton',
 ]
 
-if target_machine.system() != 'darwin'
+if host_machine.system() != 'darwin'
   syms += 'poll'
 endif
 
@@ -533,7 +537,7 @@ if not cfg.has('HAVE_SIGSETJMP')
   endif
 endif
 
-if target_machine.system() == 'windows'
+if host_machine.system() == 'windows'
     cflags += '-D_WIN32_WINNT=0x0600'
 endif
 
@@ -686,7 +690,7 @@ else
 endif
 
 sock_test = ''
-if target_machine.system() == 'windows'
+if host_machine.system() == 'windows'
   if cfg.has('HAVE_WINSOCK2_H')
     sock_test += '#include "winsock2.h"\n'
   endif
@@ -711,7 +715,7 @@ endif
 cfg.set('HAVE_RECV', true)
 cfg.set('HAVE_SEND', true)
 cfg.set('HAVE_STRUCT_TIMEVAL', true)
-if target_machine.system() == 'windows'
+if host_machine.system() == 'windows'
   cfg.set('RECV_TYPE_RETV', 'int')
   cfg.set('RECV_TYPE_ARG1', 'SOCKET')
   cfg.set('RECV_TYPE_ARG2', 'char*')
