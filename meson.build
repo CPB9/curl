@@ -151,6 +151,7 @@ if host_machine.system() == 'windows'
   cfg.set('HAVE_RAND_EGD', false)
   cfg.set('HAVE_RAND_SCREEN', false)
   cfg.set('HAVE_RAND_STATUS', false)
+  cfg.set('HAVE_SSL_GET_SHUTDOWN', false)
   cfg.set('HAVE_GMTIME_R', false)
   cfg.set('HAVE_LOCALTIME_R', false)
   cfg.set('HAVE_GETHOSTBYADDR_R', false)
@@ -367,7 +368,7 @@ if host_machine.system() == 'windows'
   if cfg.has('HAVE_LIBWS2_32')
     all_inc_prefix += '#pragma comment(lib, "Ws2_32.lib")\n'
   endif
-  ssl_dep = find_library('crypt32', required : true)
+  ssl_dep = cc.find_library('crypt32', required : true)
   cflags += '-DSECURITY_WIN32'
   cfg.set('USE_SCHANNEL', true)
   cfg.set('USE_WINDOWS_SSPI', true)
