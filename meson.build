@@ -367,12 +367,25 @@ if host_machine.system() == 'windows'
   if cfg.has('HAVE_LIBWS2_32')
     all_inc_prefix += '#pragma comment(lib, "Ws2_32.lib")\n'
   endif
+  ssl_dep = find_library('crypt32', required : true)
+  cflags += '-DSECURITY_WIN32'
+  cfg.set('USE_SCHANNEL', true)
+  cfg.set('USE_WINDOWS_SSPI', true)
+else
+  ssl_dep = dependency('openssl', required : true)
+  inc_files += ['openssl/crypto.h', 'openssl/engine.h', 'openssl/err.h', 'openssl/pem.h',
+                'openssl/rsa.h', 'openssl/ssl.h', 'openssl/x509.h', 'openssl/rand.h']
+  cfg.set('USE_OPENSSL', true)
+  cfg.set('HAVE_LIBCRYPTO', true)
+  cfg.set('HAVE_LIBSSL', true)
 endif
+
+libs += ssl_dep
 
 foreach i : inc_files
   def = 'HAVE_' + i.to_upper().underscorify()
   if not cfg.has(def)
-    if cc.has_header(i)
+    if cc.has_header(i, dependencies : ssl_dep)
       cfg.set(def, true)
       all_inc_prefix += '#include <' + i + '>\n'
     endif
@@ -494,6 +507,10 @@ syms = [
   'mach_absolute_time',
   'fsetxattr',
   'inet_pton',
+  'RAND_status',
+  'RAND_screen',
+  'RAND_egd',
+  'SSL_get_shutdown',
 ]
 
 if host_machine.system() != 'darwin'
